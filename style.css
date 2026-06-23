@@ -106,7 +106,7 @@ section > * { max-width: var(--max-width); margin-left: auto; margin-right: auto
 /* ── HERO ── */
 .hero {
   position: relative; padding: 0;
-  min-height: 100svh; min-height: 100vh;
+  min-height: unset;
   display: flex; flex-direction: column;
   overflow: hidden; background: var(--color-fondo);
 }
@@ -116,10 +116,12 @@ section > * { max-width: var(--max-width); margin-left: auto; margin-right: auto
   flex-shrink: 0;
   background-size: cover; background-position: center top;
   background-color: var(--color-caja);
+  -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
 }
 /* Zona inferior */
 .hero-content {
-  flex: 1;
+  flex: unset;
   display: flex; flex-direction: column; align-items: center;
   padding: 0 var(--padding-x) 28px;
   text-align: center;
@@ -127,8 +129,8 @@ section > * { max-width: var(--max-width); margin-left: auto; margin-right: auto
 }
 /* Círculo partido — margen negativo para subir sobre el fondo */
 .hero-circulo {
-  width: 140px; height: 140px; border-radius: 50%;
-  margin-top: -70px; margin-bottom: 12px;
+  width: 180px; height: 180px; border-radius: 50%;
+  margin-top: -90px; margin-bottom: 12px;
   /* Degradado como borde */
   background: linear-gradient(var(--color-fondo), var(--color-fondo)) padding-box,
               linear-gradient(135deg, #7B2D8B, #E8006A) border-box;
