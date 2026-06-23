@@ -1,19 +1,32 @@
+/* ============================================================
+   KOMOREBI — Maqueta Infantil v1 — style.css
+   Especificación Visual Tier 1 — Junio 2026
+   Variables de color e identidad inyectadas desde event.js.
+   No editar para personalizar una invitación.
+   ============================================================ */
+
 :root {
-  --color-primario:   #C026D3;
-  --color-secundario: #E879F9;
-  --color-fondo:      #FAF0FF;
-  --color-texto:      #3B0764;
-  --color-acento:     #FDE047;
-  --font-display:     'Dancing Script', cursive;
-  --font-cuerpo:      'Nunito', sans-serif;
-  --radius-card:  16px;
-  --radius-btn:   50px;
-  --shadow-card:  0 4px 20px rgba(0,0,0,0.10);
-  --shadow-btn:   0 4px 14px rgba(0,0,0,0.18);
-  --max-width:    480px;
-  --padding-x:    24px;
+  /* Paleta — sobreescrita por script.js desde event.js */
+  --color-fondo:        #F5EEFF;
+  --color-fondo-alt:    #EDE0FF;
+  --color-primario:     #7B2D8B;   /* títulos, borde círculo, acentos */
+  --color-accion:       #E8006A;   /* botones, countdown números */
+  --color-detalle:      #00C2B5;   /* detalles secundarios */
+  --color-dorado:       #D4A520;   /* acentos mínimos */
+  --color-texto:        #2A1A3E;   /* cuerpo sobre fondo claro */
+  --color-texto-suave:  #6B5080;   /* secundario, etiquetas */
+
+  --font-display: 'Dancing Script', cursive;
+  --font-cuerpo:  'Nunito', sans-serif;
+
+  --radius-card: 16px;
+  --radius-btn:  50px;
+  --max-width:   480px;
+  --padding-x:   24px;
+  --padding-y:   80px;
 }
 
+/* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
@@ -21,6 +34,7 @@ body {
   color: var(--color-texto);
   font-family: var(--font-cuerpo);
   font-size: 16px;
+  font-weight: 400;
   line-height: 1.6;
   overflow-x: hidden;
 }
@@ -28,7 +42,30 @@ img { max-width: 100%; display: block; }
 a { text-decoration: none; color: inherit; }
 .hidden { display: none !important; }
 
-section, footer { width: 100%; max-width: var(--max-width); margin: 0 auto; padding: 40px var(--padding-x); }
+/* ── Layout base — todas las secciones ── */
+section, footer {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--padding-y) var(--padding-x);
+}
+
+/* Secciones con fondo alterno */
+.programa-section,
+.vestimenta-section,
+.footer {
+  background-color: var(--color-fondo-alt);
+  max-width: 100%;        /* fondo ocupa todo el ancho */
+  padding: var(--padding-y) var(--padding-x);
+}
+/* Contenido interior centrado igual */
+.programa-section > *,
+.vestimenta-section > *,
+.footer > * {
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+}
 
 /* ── PORTADA ── */
 .portada {
@@ -45,8 +82,9 @@ section, footer { width: 100%; max-width: var(--max-width); margin: 0 auto; padd
   background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.35) 100%);
 }
 .portada-hint {
-  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-  z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  position: absolute; bottom: 40px; left: 50%;
+  transform: translateX(-50%); z-index: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
   color: rgba(255,255,255,0.8); font-family: var(--font-cuerpo);
   font-size: 0.8rem; letter-spacing: 0.05em;
   animation: floatHint 2.2s ease-in-out infinite; pointer-events: none;
@@ -58,93 +96,157 @@ section, footer { width: 100%; max-width: var(--max-width); margin: 0 auto; padd
 }
 .portada.fade-out { opacity: 0; pointer-events: none; }
 
-/* ── MÚSICA — solo botón flotante, sin barra ni fondo ── */
-.music-bar {
-  position: fixed;
-  top: 14px; right: 14px;
-  z-index: 200;
-}
+/* ── MÚSICA — botón flotante ── */
+.music-bar { position: fixed; top: 14px; right: 14px; z-index: 200; }
 .music-btn {
-  width: 42px; height: 42px;
-  border-radius: 50%; border: none;
-  background: var(--color-primario);
-  color: white; font-size: 0.9rem;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.25);
-  transition: transform 0.2s;
+  width: 42px; height: 42px; border-radius: 50%; border: none;
+  background: var(--color-accion); color: white; font-size: 0.9rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.22); transition: filter 0.2s;
 }
-.music-btn:active { transform: scale(0.9); }
+.music-btn:hover  { filter: brightness(1.15); }
+.music-btn:active { filter: brightness(0.9); }
 
 /* ── HERO ── */
 .hero {
   position: relative; padding: 0;
-  min-height: 400px;
-  display: flex; align-items: center; justify-content: center;
+  /* altura = 100dvh para que todo quepa en primera pantalla */
+  min-height: 100dvh;
+  min-height: 100vh; /* fallback */
+  display: flex; align-items: flex-end; justify-content: center;
   overflow: hidden;
 }
+/* Imagen de fondo 9:16 — sin fade, personajes en laterales */
 .hero-fondo {
   position: absolute; inset: 0;
-  background-size: cover; background-position: center top;
-  background-color: var(--color-secundario);
+  background-size: cover;
+  background-position: center top;
+  background-color: var(--color-fondo-alt);
 }
+/* Overlay muy suave solo en la zona inferior para legibilidad del texto */
 .hero-fondo::after {
   content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse 90% 80% at 50% 40%, transparent 20%, var(--color-fondo) 75%);
+  background: linear-gradient(to bottom, transparent 40%, rgba(245,238,255,0.85) 75%, var(--color-fondo) 100%);
 }
+/* Contenido del hero */
 .hero-content {
   position: relative; z-index: 1;
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  padding: 56px var(--padding-x) 48px;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0 var(--padding-x) 40px;
   text-align: center; width: 100%;
+}
+/* Círculo partido a la mitad — mitad en imagen, mitad fuera */
+.hero-circulo-wrap {
+  margin-bottom: 12px;
+  /* Empuja el círculo hacia arriba para que quede a caballo del límite imagen/texto */
+  margin-top: -85px;
+  position: relative; z-index: 2;
 }
 .hero-circulo {
   width: 170px; height: 170px; border-radius: 50%;
-  border: 4px solid var(--color-primario);
-  box-shadow: 0 0 0 3px white, 0 0 0 6px var(--color-secundario);
-  overflow: hidden; background: var(--color-secundario);
+  /* Borde degradado con pseudo-elemento */
+  padding: 4px;
+  background: linear-gradient(135deg, var(--color-primario), var(--color-accion));
+  overflow: hidden;
 }
-.hero-foto { width: 100%; height: 100%; object-fit: cover; }
+.hero-circulo-inner {
+  width: 100%; height: 100%; border-radius: 50%;
+  overflow: hidden; background: var(--color-fondo-alt);
+}
+.hero-foto { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+/* Elementos debajo del círculo — orden fijo */
 .hero-nombre {
   font-family: var(--font-display);
-  font-size: 3.4rem; color: var(--color-texto); line-height: 1;
-  margin-top: 8px;
+  font-size: 52px; font-weight: 700;
+  color: var(--color-texto); line-height: 1;
+  margin-top: 4px;
 }
-.hero-edad {
-  font-size: 1rem; color: var(--color-primario); font-weight: 600;
-  background: white;
-  padding: 6px 18px; border-radius: 50px;
-  box-shadow: var(--shadow-card);
+.hero-frase {
+  font-family: var(--font-cuerpo);
+  font-size: 15px; font-weight: 700;
+  color: var(--color-primario);
+  margin-top: 6px;
+}
+.hero-fecha {
+  font-family: var(--font-cuerpo);
+  font-size: 14px; font-weight: 400;
+  color: var(--color-texto-suave);
   margin-top: 4px;
 }
 
-/* ── COUNTDOWN ── */
-.countdown-section { text-align: center; padding-top: 0; }
-.countdown-grid {
+/* ── COUNTDOWN — dentro del hero, al final ── */
+.hero-countdown {
+  margin-top: 16px;
   display: flex; justify-content: center; align-items: center; gap: 6px;
 }
 .countdown-item {
   display: flex; flex-direction: column; align-items: center;
   background: white; border-radius: var(--radius-card);
-  padding: 14px 16px; min-width: 66px; box-shadow: var(--shadow-card);
+  padding: 10px 14px; min-width: 62px;
 }
-.countdown-num { font-family: var(--font-display); font-size: 2rem; color: var(--color-primario); line-height: 1; }
-.countdown-label { font-size: 0.58rem; letter-spacing: 0.12em; color: var(--color-texto); opacity: 0.55; margin-top: 4px; font-weight: 700; }
-.countdown-sep { font-size: 1.6rem; color: var(--color-primario); margin-bottom: 14px; }
-.countdown-fecha { margin-top: 16px; font-size: 0.88rem; opacity: 0.65; }
+.countdown-num {
+  font-family: var(--font-cuerpo);
+  font-size: 48px; font-weight: 800;
+  color: var(--color-accion); line-height: 1;
+}
+.countdown-label {
+  font-size: 10px; font-weight: 300; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--color-texto-suave);
+  margin-top: 2px;
+}
+.countdown-sep {
+  font-size: 48px; font-weight: 800;
+  color: var(--color-accion); line-height: 1;
+  margin-bottom: 18px; /* alinea con los números */
+}
+
+/* Fecha debajo del countdown (sección propia) */
+.countdown-section {
+  padding-top: 0;
+  text-align: center;
+}
+.countdown-fecha {
+  font-size: 14px; color: var(--color-texto-suave); opacity: 0.8;
+}
+
+/* ── TÍTULO DE SECCIÓN ── */
+/* Sin emojis. Nunito Bold 13px mayúsculas letter-spacing */
+.seccion-titulo {
+  font-family: var(--font-cuerpo);
+  font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--color-primario);
+  text-align: center;
+  margin-bottom: 24px;
+}
 
 /* ── TEXTO INVITACIÓN ── */
 .invitacion-texto-section { text-align: center; padding-top: 0; }
-.invitacion-texto { font-size: 1.05rem; line-height: 1.85; max-width: 340px; margin: 0 auto; }
+.invitacion-texto {
+  font-size: 16px; font-weight: 400;
+  line-height: 1.85; max-width: 340px; margin: 0 auto;
+  color: var(--color-texto);
+}
 
 /* ── GALERÍA ── */
-.galeria-section { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-top: 0; }
-.galeria-contador { font-size: 0.82rem; background: white; border-radius: 20px; padding: 4px 16px; box-shadow: var(--shadow-card); opacity: 0.75; }
-.galeria-stack { position: relative; width: 270px; height: 360px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.galeria-section {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 16px; padding-top: 0;
+}
+.galeria-contador {
+  font-size: 11px; font-weight: 300; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--color-texto-suave);
+  background: white; border-radius: 20px; padding: 4px 16px;
+}
+.galeria-stack {
+  position: relative; width: 270px; height: 360px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
 .galeria-card {
   position: absolute; inset: 0; background: white;
-  border-radius: 3px; box-shadow: 0 8px 30px rgba(0,0,0,0.18);
-  padding: 10px 10px 48px 10px; transition: transform 0.15s ease;
+  border-radius: 3px; box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  padding: 10px 10px 48px; transition: transform 0.15s ease;
 }
 .galeria-card img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
 .galeria-card:nth-child(2) { transform: rotate(3.5deg) translateY(5px); }
@@ -156,15 +258,14 @@ section, footer { width: 100%; max-width: var(--max-width); margin: 0 auto; padd
   0%   { transform: translateX(0) rotate(0); opacity: 1; }
   100% { transform: translateX(-70px) rotate(-10deg); opacity: 0; }
 }
-.galeria-hint { font-size: 1.2rem; opacity: 0.4; animation: bounce 2s ease-in-out infinite; }
+.galeria-hint { font-size: 1.2rem; opacity: 0.35; animation: bounce 2s ease-in-out infinite; }
 @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
 /* ── UBICACIÓN ── */
 .ubicacion-section { text-align: center; }
 .salon-nombre-mapa {
-  font-family: var(--font-display);
-  font-size: 1.4rem; color: var(--color-texto);
-  margin-bottom: 12px;
+  font-family: var(--font-cuerpo); font-size: 15px; font-weight: 700;
+  color: var(--color-texto); margin-bottom: 12px;
 }
 .salon-foto-wrap { position: relative; border-radius: var(--radius-card); overflow: hidden; margin-bottom: 16px; }
 .salon-foto { width: 100%; height: 200px; object-fit: cover; }
@@ -176,47 +277,81 @@ section, footer { width: 100%; max-width: var(--max-width); margin: 0 auto; padd
 .mapa-embed { border-radius: var(--radius-card); overflow: hidden; margin-bottom: 16px; }
 .mapa-embed iframe { display: block; border-radius: var(--radius-card); }
 
-/* ── SECCIONES CONDICIONALES ── */
-.programa-lista, .menu-lista { display: flex; flex-direction: column; gap: 12px; }
-.programa-item { display: flex; gap: 16px; align-items: flex-start; background: white; border-radius: var(--radius-card); padding: 14px 16px; box-shadow: var(--shadow-card); }
-.programa-hora { font-weight: 700; color: var(--color-primario); white-space: nowrap; font-size: 0.9rem; min-width: 54px; }
-.menu-item { background: white; border-radius: var(--radius-card); padding: 14px 16px; box-shadow: var(--shadow-card); }
+/* ── PROGRAMA ── */
+.programa-lista { display: flex; flex-direction: column; gap: 12px; max-width: var(--max-width); margin: 0 auto; }
+.programa-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: white; border-radius: var(--radius-card); padding: 14px 16px;
+}
+.programa-hora { font-weight: 700; color: var(--color-accion); white-space: nowrap; font-size: 0.9rem; min-width: 54px; }
+
+/* ── MENÚ ── */
+.menu-lista { display: flex; flex-direction: column; gap: 12px; }
+.menu-item { background: white; border-radius: var(--radius-card); padding: 14px 16px; }
 .menu-platillo { font-weight: 700; font-size: 0.95rem; }
-.menu-desc { font-size: 0.85rem; opacity: 0.7; }
-.vestimenta-section { text-align: center; }
-.vestimenta-card { background: white; border-radius: var(--radius-card); padding: 24px 20px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.menu-desc { font-size: 0.85rem; color: var(--color-texto-suave); }
+
+/* ── VESTIMENTA ── */
+.vestimenta-card {
+  max-width: var(--max-width); margin: 0 auto;
+  background: white; border-radius: var(--radius-card);
+  padding: 24px 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
 .vestimenta-emoji { font-size: 2.4rem; }
+
+/* ── REGALOS ── */
 .regalos-section { text-align: center; }
-.regalos-copy { font-size: 0.95rem; margin-bottom: 20px; opacity: 0.85; line-height: 1.7; }
+.regalos-copy { font-size: 16px; font-weight: 400; color: var(--color-texto); margin-bottom: 20px; line-height: 1.7; }
+
+/* ── CONFIRMACIÓN ── */
 .confirmacion-section { text-align: center; }
-.confirmacion-copy { font-size: 0.95rem; margin-bottom: 20px; opacity: 0.85; }
+.confirmacion-copy { font-size: 16px; color: var(--color-texto); margin-bottom: 20px; line-height: 1.6; }
+
+/* ── CALENDARIO ── */
 .calendario-section { padding-top: 0; text-align: center; }
 
-/* ── BOTONES ── */
-.btn-confirmar, .btn-regalos, .btn-ubicacion, .btn-calendario {
-  display: inline-block; width: 100%; padding: 16px 24px;
-  border-radius: var(--radius-btn); font-family: var(--font-cuerpo);
-  font-size: 1rem; font-weight: 700; text-align: center; cursor: pointer;
-  transition: transform 0.15s ease; box-shadow: var(--shadow-btn);
+/* ── BOTONES — un solo estilo, color de acción ── */
+.btn-confirmar,
+.btn-regalos,
+.btn-ubicacion,
+.btn-calendario {
+  display: inline-block; width: 100%;
+  padding: 16px 24px; border-radius: var(--radius-btn);
+  font-family: var(--font-cuerpo); font-size: 14px; font-weight: 700;
+  color: white; background: var(--color-accion);
+  text-align: center; cursor: pointer; border: none;
+  transition: filter 0.2s;
 }
-.btn-confirmar:active, .btn-regalos:active, .btn-ubicacion:active, .btn-calendario:active { transform: scale(0.97); }
-.btn-confirmar { background: var(--color-primario); color: white; }
-.btn-regalos   { background: var(--color-acento); color: var(--color-texto); }
-.btn-ubicacion { background: var(--color-primario); color: white; margin-top: 0; }
-.btn-calendario { background: transparent; color: var(--color-primario); border: 2px solid var(--color-primario); }
-
-/* ── TÍTULO DE SECCIÓN ── */
-.seccion-titulo { font-family: var(--font-display); font-size: 1.8rem; color: var(--color-texto); text-align: center; margin-bottom: 20px; }
+.btn-confirmar:hover,
+.btn-regalos:hover,
+.btn-ubicacion:hover,
+.btn-calendario:hover  { filter: brightness(1.15); }
+.btn-confirmar:active,
+.btn-regalos:active,
+.btn-ubicacion:active,
+.btn-calendario:active { filter: brightness(0.9); }
+/* Botón de calendario — variante outline */
+.btn-calendario {
+  background: transparent;
+  color: var(--color-accion);
+  border: 2px solid var(--color-accion);
+}
+.btn-calendario:hover { background: rgba(232,0,106,0.06); filter: none; }
 
 /* ── FOOTER ── */
-.footer { text-align: center; padding: 32px var(--padding-x); font-size: 0.85rem; opacity: 0.55; }
-.footer-corazon { color: var(--color-primario); }
+.footer {
+  text-align: center;
+  font-size: 11px; font-weight: 300; letter-spacing: 0.1em;
+  color: var(--color-texto-suave);
+}
+.footer-corazon { color: var(--color-accion); }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 360px) {
-  .countdown-item { min-width: 56px; padding: 12px 10px; }
-  .countdown-num  { font-size: 1.6rem; }
-  .hero-nombre    { font-size: 2.8rem; }
+  .countdown-num  { font-size: 36px; }
+  .countdown-item { min-width: 54px; padding: 8px 10px; }
+  .hero-nombre    { font-size: 42px; }
   .galeria-stack  { width: 240px; height: 320px; }
 }
 @media (prefers-reduced-motion: reduce) {

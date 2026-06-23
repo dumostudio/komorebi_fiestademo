@@ -8,11 +8,12 @@
 </head>
 <body>
 
-  <!-- PORTADA — toda la pantalla, sin UI -->
+  <!-- PORTADA -->
   <div id="portada" class="portada">
     <div class="portada-hint">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 11V7a3 3 0 116 0v4M9 11H7a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-2M9 11h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9 11V7a3 3 0 116 0v4M9 11H7a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-2M9 11h6"
+              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <span>Toca para abrir</span>
     </div>
@@ -20,7 +21,7 @@
 
   <main id="main-content" class="hidden">
 
-    <!-- Botón de música — solo el círculo, sin barra ni texto -->
+    <!-- Botón de música flotante -->
     <div class="music-bar" id="music-bar">
       <button class="music-btn" id="music-btn" aria-label="Reproducir música">
         <span class="music-icon">▶</span>
@@ -28,46 +29,57 @@
       <audio id="audio-player" loop></audio>
     </div>
 
-    <!-- HERO -->
+    <!-- HERO — imagen 9:16 + círculo partido + nombre + frase + fecha + countdown -->
     <section class="hero" id="hero">
       <div class="hero-fondo" id="hero-fondo"></div>
       <div class="hero-content">
-        <div class="hero-circulo">
-          <img src="assets/photos/hero.jpg" alt="Foto de la festejada" class="hero-foto"
-               onerror="this.style.display='none'" />
+
+        <!-- Círculo con borde degradado -->
+        <div class="hero-circulo-wrap">
+          <div class="hero-circulo">
+            <div class="hero-circulo-inner">
+              <img src="assets/photos/hero.jpg" alt="Foto de la festejada"
+                   class="hero-foto" onerror="this.style.display='none'" />
+            </div>
+          </div>
         </div>
+
+        <!-- Nombre -->
         <h1 class="hero-nombre" id="hero-nombre"></h1>
-        <p class="hero-edad" id="hero-edad"></p>
+
+        <!-- Frase de invitación / edad -->
+        <p class="hero-frase" id="hero-frase"></p>
+
+        <!-- Fecha y hora -->
+        <p class="hero-fecha" id="hero-fecha"></p>
+
+        <!-- Countdown dentro del hero -->
+        <div class="hero-countdown">
+          <div class="countdown-item">
+            <span class="countdown-num" id="cd-dias">00</span>
+            <span class="countdown-label">Días</span>
+          </div>
+          <span class="countdown-sep">:</span>
+          <div class="countdown-item">
+            <span class="countdown-num" id="cd-horas">00</span>
+            <span class="countdown-label">Horas</span>
+          </div>
+          <span class="countdown-sep">:</span>
+          <div class="countdown-item">
+            <span class="countdown-num" id="cd-min">00</span>
+            <span class="countdown-label">Min</span>
+          </div>
+          <span class="countdown-sep">:</span>
+          <div class="countdown-item">
+            <span class="countdown-num" id="cd-seg">00</span>
+            <span class="countdown-label">Seg</span>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- COUNTDOWN -->
-    <section class="countdown-section">
-      <div class="countdown-grid">
-        <div class="countdown-item">
-          <span class="countdown-num" id="cd-dias">00</span>
-          <span class="countdown-label">DÍAS</span>
-        </div>
-        <div class="countdown-sep">:</div>
-        <div class="countdown-item">
-          <span class="countdown-num" id="cd-horas">00</span>
-          <span class="countdown-label">HORAS</span>
-        </div>
-        <div class="countdown-sep">:</div>
-        <div class="countdown-item">
-          <span class="countdown-num" id="cd-min">00</span>
-          <span class="countdown-label">MIN</span>
-        </div>
-        <div class="countdown-sep">:</div>
-        <div class="countdown-item">
-          <span class="countdown-num" id="cd-seg">00</span>
-          <span class="countdown-label">SEG</span>
-        </div>
-      </div>
-      <p class="countdown-fecha" id="countdown-fecha"></p>
-    </section>
-
-    <!-- TEXTO INVITACIÓN -->
+    <!-- TEXTO DE INVITACIÓN -->
     <section class="invitacion-texto-section">
       <p class="invitacion-texto" id="invitacion-texto"></p>
     </section>
@@ -81,31 +93,31 @@
 
     <!-- UBICACIÓN -->
     <section class="ubicacion-section" id="ubicacion-section">
-      <h2 class="seccion-titulo" id="ubicacion-titulo"></h2>
+      <h2 class="seccion-titulo">Dónde nos vemos</h2>
       <div id="ubicacion-salon" class="hidden">
         <div class="salon-foto-wrap">
           <img src="assets/photos/lugar.jpg" alt="Foto del lugar" class="salon-foto"
                onerror="this.parentElement.style.display='none'" />
           <p class="salon-nombre" id="salon-nombre"></p>
         </div>
-        <a class="btn-ubicacion" id="btn-ubicacion-salon" target="_blank" rel="noopener">📍 Ver ubicación</a>
+        <a class="btn-ubicacion" id="btn-ubicacion-salon" target="_blank" rel="noopener">Ver ubicación</a>
       </div>
       <div id="ubicacion-domicilio" class="hidden">
         <p class="salon-nombre-mapa" id="salon-nombre-mapa"></p>
         <div class="mapa-embed" id="mapa-embed"></div>
-        <a class="btn-ubicacion" id="btn-ubicacion-maps" target="_blank" rel="noopener">📍 Abrir en Google Maps</a>
+        <a class="btn-ubicacion" id="btn-ubicacion-maps" target="_blank" rel="noopener">Abrir en Google Maps</a>
       </div>
     </section>
 
     <!-- PROGRAMA (invisible si vacío) -->
     <section class="programa-section hidden" id="programa-section">
-      <h2 class="seccion-titulo">Programa del día 🗓️</h2>
+      <h2 class="seccion-titulo">Programa del día</h2>
       <div class="programa-lista" id="programa-lista"></div>
     </section>
 
     <!-- MENÚ (invisible si vacío) -->
     <section class="menu-section hidden" id="menu-section">
-      <h2 class="seccion-titulo">¿Qué vamos a comer? 🍽️</h2>
+      <h2 class="seccion-titulo">Qué vamos a comer</h2>
       <div class="menu-lista" id="menu-lista"></div>
     </section>
 
@@ -114,27 +126,29 @@
       <h2 class="seccion-titulo">Código de vestimenta</h2>
       <div class="vestimenta-card">
         <span class="vestimenta-emoji" id="vestimenta-emoji"></span>
-        <p class="vestimenta-texto" id="vestimenta-texto"></p>
+        <p id="vestimenta-texto"></p>
       </div>
     </section>
 
     <!-- MESA DE REGALOS (invisible si vacío) -->
     <section class="regalos-section hidden" id="regalos-section">
-      <h2 class="seccion-titulo">Mesa de regalos 🎁</h2>
-      <p class="regalos-copy">Tu presencia es el mejor regalo. Pero si quieres consentir a <span id="regalos-nombre"></span>, aquí encontrarás algunas ideas con mucho cariño.</p>
+      <h2 class="seccion-titulo">Mesa de regalos</h2>
+      <p class="regalos-copy">Tu presencia es el mejor regalo. Pero si quieres consentir a
+        <span id="regalos-nombre"></span>, aquí encontrarás algunas ideas con mucho cariño.</p>
       <a class="btn-regalos" id="btn-regalos" target="_blank" rel="noopener"></a>
     </section>
 
     <!-- CONFIRMACIÓN -->
     <section class="confirmacion-section">
-      <h2 class="seccion-titulo">¿Vienes? 🥳</h2>
-      <p class="confirmacion-copy">Confírmale tu asistencia a <span id="confirmacion-contacto"></span> para que nadie se quede sin lugar.</p>
+      <h2 class="seccion-titulo">Confirma tu asistencia</h2>
+      <p class="confirmacion-copy">Avísale a <span id="confirmacion-contacto"></span>
+        para que nadie se quede sin lugar.</p>
       <a class="btn-confirmar" id="btn-confirmar" target="_blank" rel="noopener"></a>
     </section>
 
     <!-- CALENDARIO -->
     <section class="calendario-section">
-      <a class="btn-calendario" id="btn-calendario">📅 Guardar en mi calendario</a>
+      <a class="btn-calendario" id="btn-calendario">Guardar en mi calendario</a>
     </section>
 
     <footer class="footer">

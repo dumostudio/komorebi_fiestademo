@@ -1,23 +1,30 @@
 (function () {
   'use strict';
 
+  // ── 1. COLORES Y TIPOGRAFÍAS ─────────────────────────────
   function aplicarIdentidad() {
     const c = EVENT.colores, t = EVENT.tipografias;
     const r = document.documentElement;
-    r.style.setProperty('--color-primario',   c.primario);
-    r.style.setProperty('--color-secundario', c.secundario);
-    r.style.setProperty('--color-fondo',      c.fondo);
-    r.style.setProperty('--color-texto',      c.texto);
-    r.style.setProperty('--color-acento',     c.acento);
-    r.style.setProperty('--font-display',     `'${t.display}', cursive`);
-    r.style.setProperty('--font-cuerpo',      `'${t.cuerpo}', sans-serif`);
+    r.style.setProperty('--color-fondo',       c.fondo);
+    r.style.setProperty('--color-fondo-alt',   c.fondoAlt);
+    r.style.setProperty('--color-primario',    c.primario);
+    r.style.setProperty('--color-accion',      c.accion);
+    r.style.setProperty('--color-detalle',     c.detalle);
+    r.style.setProperty('--color-dorado',      c.dorado);
+    r.style.setProperty('--color-texto',       c.texto);
+    r.style.setProperty('--color-texto-suave', c.textoSuave);
+    r.style.setProperty('--font-display',      `'${t.display}', cursive`);
+    r.style.setProperty('--font-cuerpo',       `'${t.cuerpo}', sans-serif`);
+
     const link = document.createElement('link');
     link.rel  = 'stylesheet';
-    link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(t.display)}:wght@400;700&family=${encodeURIComponent(t.cuerpo)}:wght@400;600;700&display=swap`;
+    link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(t.display)}:wght@700&family=${encodeURIComponent(t.cuerpo)}:wght@300;400;700;800&display=swap`;
     document.head.appendChild(link);
-    document.getElementById('page-title').textContent = `¡Fiesta de ${EVENT.nombre}! 🎉`;
+
+    document.getElementById('page-title').textContent = `Fiesta de ${EVENT.nombre}`;
   }
 
+  // ── 2. PORTADA ───────────────────────────────────────────
   function iniciarPortada() {
     const portada = document.getElementById('portada');
     const main    = document.getElementById('main-content');
@@ -31,9 +38,12 @@
       setTimeout(() => portada.remove(), 750);
     }
     portada.addEventListener('click', abrir);
-    portada.addEventListener('touchend', function(e) { e.preventDefault(); abrir(); }, { once: true });
+    portada.addEventListener('touchend', function(e) {
+      e.preventDefault(); abrir();
+    }, { once: true });
   }
 
+  // ── 3. MÚSICA ────────────────────────────────────────────
   function iniciarMusica() {
     const audio = document.getElementById('audio-player');
     const btn   = document.getElementById('music-btn');
@@ -46,52 +56,66 @@
     });
   }
 
+  // ── 4. HERO ──────────────────────────────────────────────
   function construirHero() {
-    document.getElementById('hero-nombre').textContent = EVENT.nombre;
-    // Frase de edad — viene directamente de event.js, editable por cliente
-    document.getElementById('hero-edad').textContent = EVENT.hero.fraseEdad;
+    // Fondo 9:16
     if (EVENT.hero.usarFondoFoto) {
-      document.getElementById('hero-fondo').style.backgroundImage = "url('assets/photos/hero-fondo.jpg')";
+      document.getElementById('hero-fondo').style.backgroundImage =
+        "url('assets/photos/hero-fondo.jpg')";
     }
+    // Nombre
+    document.getElementById('hero-nombre').textContent = EVENT.nombre;
+    // Frase / edad
+    document.getElementById('hero-frase').textContent = EVENT.hero.fraseEdad;
+    // Fecha y hora
+    document.getElementById('hero-fecha').textContent =
+      `${EVENT.fechaTexto} · ${EVENT.horaTexto}`;
   }
 
+  // ── 5. COUNTDOWN ─────────────────────────────────────────
   function iniciarCountdown() {
-    document.getElementById('countdown-fecha').textContent = `${EVENT.fechaTexto} · ${EVENT.horaTexto}`;
     const meta = new Date(EVENT.fechaISO).getTime();
     const pad  = n => String(n).padStart(2, '0');
     function tick() {
       const diff = meta - Date.now();
-      if (diff <= 0) { ['cd-dias','cd-horas','cd-min','cd-seg'].forEach(id => document.getElementById(id).textContent = '00'); return; }
-      document.getElementById('cd-dias').textContent  = pad(Math.floor(diff / 86400000));
-      document.getElementById('cd-horas').textContent = pad(Math.floor((diff % 86400000) / 3600000));
-      document.getElementById('cd-min').textContent   = pad(Math.floor((diff % 3600000) / 60000));
-      document.getElementById('cd-seg').textContent   = pad(Math.floor((diff % 60000) / 1000));
+      const safe = Math.max(0, diff);
+      document.getElementById('cd-dias').textContent  = pad(Math.floor(safe / 86400000));
+      document.getElementById('cd-horas').textContent = pad(Math.floor((safe % 86400000) / 3600000));
+      document.getElementById('cd-min').textContent   = pad(Math.floor((safe % 3600000) / 60000));
+      document.getElementById('cd-seg').textContent   = pad(Math.floor((safe % 60000) / 1000));
     }
     tick(); setInterval(tick, 1000);
   }
 
+  // ── 6. TEXTO ─────────────────────────────────────────────
   function construirTexto() {
     document.getElementById('invitacion-texto').textContent = EVENT.textoInvitacion;
   }
 
+  // ── 7. GALERÍA ───────────────────────────────────────────
   function construirGaleria() {
     const fotos = EVENT.galeria;
-    if (!fotos || fotos.length === 0) { document.getElementById('galeria-section').classList.add('hidden'); return; }
-    const stack = document.getElementById('galeria-stack');
+    if (!fotos || fotos.length === 0) {
+      document.getElementById('galeria-section').classList.add('hidden'); return;
+    }
+    const stack    = document.getElementById('galeria-stack');
     const contador = document.getElementById('galeria-contador');
     let actual = 0;
+
     fotos.forEach((foto, i) => {
       const card = document.createElement('div');
       card.className = 'galeria-card' + (i === 0 ? ' activa' : '');
       card.style.zIndex = fotos.length - i;
       const img = document.createElement('img');
-      img.src = `assets/photos/${foto.archivo}`;
-      img.alt = foto.alt;
-      card.appendChild(img);
-      stack.appendChild(card);
+      img.src = `assets/photos/${foto.archivo}`; img.alt = foto.alt;
+      card.appendChild(img); stack.appendChild(card);
     });
-    function actualizarContador() { contador.textContent = `${actual + 1} / ${fotos.length}`; }
+
+    function actualizarContador() {
+      contador.textContent = `${actual + 1} / ${fotos.length}`;
+    }
     actualizarContador();
+
     function avanzar() {
       const activa = stack.querySelector('.galeria-card.activa');
       activa.classList.add('saliendo'); activa.classList.remove('activa');
@@ -109,26 +133,22 @@
     stack.addEventListener('touchend',   e => { if (Math.abs(e.changedTouches[0].clientX - startX) > 30) avanzar(); });
   }
 
+  // ── 8. UBICACIÓN ─────────────────────────────────────────
   function construirUbicacion() {
     const u = EVENT.ubicacion;
-    // Título de la sección
-    document.getElementById('ubicacion-titulo').textContent = `¿Dónde nos vemos?`;
-
     if (u.modo === 'salon') {
       document.getElementById('ubicacion-salon').classList.remove('hidden');
       document.getElementById('salon-nombre').textContent = u.nombreLugar;
       document.getElementById('btn-ubicacion-salon').href = u.linkUbicacion;
     } else {
       document.getElementById('ubicacion-domicilio').classList.remove('hidden');
-      // Nombre del lugar sobre el mapa
-      const nombreEl = document.getElementById('salon-nombre-mapa');
-      if (u.nombreLugar) nombreEl.textContent = u.nombreLugar;
+      if (u.nombreLugar) document.getElementById('salon-nombre-mapa').textContent = u.nombreLugar;
       document.getElementById('mapa-embed').innerHTML = u.embedMapa;
-      const btnMaps = document.getElementById('btn-ubicacion-maps');
-      btnMaps.href = u.linkUbicacion;
+      document.getElementById('btn-ubicacion-maps').href = u.linkUbicacion;
     }
   }
 
+  // ── 9. SECCIONES OPCIONALES ──────────────────────────────
   function construirPrograma() {
     if (!EVENT.programa || EVENT.programa.length === 0) return;
     document.getElementById('programa-section').classList.remove('hidden');
@@ -166,12 +186,14 @@
     btn.textContent = EVENT.mesaRegalos.textoBoton; btn.href = EVENT.mesaRegalos.enlace;
   }
 
+  // ── 10. CONFIRMACIÓN ─────────────────────────────────────
   function construirConfirmacion() {
     document.getElementById('confirmacion-contacto').textContent = EVENT.confirmacion.nombreContacto;
     const btn = document.getElementById('btn-confirmar');
     btn.textContent = EVENT.confirmacion.textoBoton; btn.href = EVENT.confirmacion.enlace;
   }
 
+  // ── 11. CALENDARIO ───────────────────────────────────────
   function construirCalendario() {
     const cal = EVENT.calendario;
     const f   = new Date(EVENT.fechaISO);
@@ -183,6 +205,7 @@
     btn.download = `fiesta-${EVENT.nombre.toLowerCase()}.ics`;
   }
 
+  // ── INIT ─────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
     aplicarIdentidad();
     iniciarPortada();
