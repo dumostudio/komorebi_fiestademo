@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- PORTADA — toda la pantalla es el botón, sin UI -->
+  <!-- PORTADA — toda la pantalla, sin UI -->
   <div id="portada" class="portada">
     <div class="portada-hint">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,12 +20,11 @@
 
   <main id="main-content" class="hidden">
 
-    <!-- Barra de música (sticky, discreta) -->
+    <!-- Botón de música — solo el círculo, sin barra ni texto -->
     <div class="music-bar" id="music-bar">
       <button class="music-btn" id="music-btn" aria-label="Reproducir música">
         <span class="music-icon">▶</span>
       </button>
-      <span class="music-texto" id="music-texto"></span>
       <audio id="audio-player" loop></audio>
     </div>
 
@@ -34,10 +33,9 @@
       <div class="hero-fondo" id="hero-fondo"></div>
       <div class="hero-content">
         <div class="hero-circulo">
-          <img src="assets/photos/hero.jpg" alt="Foto de la festejada" class="hero-foto" id="hero-foto"
+          <img src="assets/photos/hero.jpg" alt="Foto de la festejada" class="hero-foto"
                onerror="this.style.display='none'" />
         </div>
-        <p class="hero-invito">¡TE INVITO A MI FIESTA!</p>
         <h1 class="hero-nombre" id="hero-nombre"></h1>
         <p class="hero-edad" id="hero-edad"></p>
       </div>
@@ -83,16 +81,19 @@
 
     <!-- UBICACIÓN -->
     <section class="ubicacion-section" id="ubicacion-section">
-      <h2 class="seccion-titulo">¿Dónde nos vemos?</h2>
+      <h2 class="seccion-titulo" id="ubicacion-titulo"></h2>
       <div id="ubicacion-salon" class="hidden">
         <div class="salon-foto-wrap">
-          <img src="assets/photos/lugar.jpg" alt="Foto del lugar" class="salon-foto" onerror="this.parentElement.style.display='none'" />
+          <img src="assets/photos/lugar.jpg" alt="Foto del lugar" class="salon-foto"
+               onerror="this.parentElement.style.display='none'" />
           <p class="salon-nombre" id="salon-nombre"></p>
         </div>
         <a class="btn-ubicacion" id="btn-ubicacion-salon" target="_blank" rel="noopener">📍 Ver ubicación</a>
       </div>
       <div id="ubicacion-domicilio" class="hidden">
+        <p class="salon-nombre-mapa" id="salon-nombre-mapa"></p>
         <div class="mapa-embed" id="mapa-embed"></div>
+        <a class="btn-ubicacion" id="btn-ubicacion-maps" target="_blank" rel="noopener">📍 Abrir en Google Maps</a>
       </div>
     </section>
 

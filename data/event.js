@@ -1,8 +1,3 @@
-// ============================================================
-//  KOMOREBI — Demo Infantil: Sofía
-//  EDITA SOLO ESTE ARCHIVO para personalizar cada invitación.
-// ============================================================
-
 const EVENT = {
 
   nombre: "Sofía",
@@ -15,11 +10,11 @@ const EVENT = {
   tematica: "K-Pop Stars",
 
   colores: {
-    primario:    "#C026D3",   // morado vibrante
-    secundario:  "#E879F9",   // lila suave
-    fondo:       "#FAF0FF",   // lavanda muy claro
-    texto:       "#3B0764",   // morado oscuro
-    acento:      "#FDE047",   // amarillo brillante
+    primario:    "#C026D3",
+    secundario:  "#E879F9",
+    fondo:       "#FAF0FF",
+    texto:       "#3B0764",
+    acento:      "#FDE047",
   },
 
   tipografias: {
@@ -29,31 +24,30 @@ const EVENT = {
 
   portada: {
     usarFoto: true,
-    textoBoton: "¡Toca para abrir tu invitación! 🎉",
   },
 
   hero: {
     usarFondoFoto: true,
-    subtitulo: "cumple",
-    emoji: "⭐",
+    // Frase que aparece debajo del nombre — edita aquí para cada cliente
+    fraseEdad: "¡Te invito a mi fiesta, cumplo 7 años! ⭐",
   },
 
   textoInvitacion: "¡Quiero que seas parte de mi día más especial! Ven a celebrar conmigo, a bailar, reír y hacer recuerdos que nunca vamos a olvidar. 💜",
 
   galeria: [
-    { archivo: "gallery-5.png", alt: "Sofía en el resbaladero" },
+    { archivo: "gallery-5.png", alt: "Sofía en el Roller" },
     { archivo: "gallery-1.png", alt: "Sofía en los brincolines" },
     { archivo: "gallery-2.png", alt: "Sofía posando" },
-    { archivo: "gallery-3.png", alt: "Sofía en el resbaladero amarillo" },
+    { archivo: "gallery-3.png", alt: "Sofía en el resbaladero" },
     { archivo: "gallery-4.png", alt: "Sofía en Lingo Hospital" },
     { archivo: "gallery-6.png", alt: "Sofía en el escenario" },
   ],
 
   ubicacion: {
-    modo: "salon",
+    modo: "domicilio",           // "salon" = foto + botón | "domicilio" = mapa embed + botón
     nombreLugar: "Lingo Lingo Party",
     linkUbicacion: "https://maps.app.goo.gl/56RdqiTPRM6SdNnb9",
-    embedMapa: `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d939.7!2d-100.2432293!3d25.6805236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8662eb0c76f4c985%3A0x10e940e1f88a4667!2sLingo%20Lingo%20Party!5e0!3m2!1ses!2smx!4v1" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>`,
+    embedMapa: `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470.0!2d-100.2432293!3d25.6805236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8662eb0c76f4c985%3A0x10e940e1f88a4667!2sLingo%20Lingo%20Party!5e0!3m2!1ses!2smx!4v1" width="100%" height="280" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`,
   },
 
   programa: [],
@@ -75,7 +69,6 @@ const EVENT = {
 
   musica: {
     archivo: "assets/music/cancion.m4a",
-    textoPlayer: "🎵 Música de la fiesta",
   },
 
 };
