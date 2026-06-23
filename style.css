@@ -110,7 +110,7 @@ section > * { max-width: var(--max-width); margin-left: auto; margin-right: auto
   display: flex; flex-direction: column;
   overflow: hidden; background: var(--color-fondo);
 }
-/* Fondo de personajes — 45% superior */
+/* Fondo de personajes — div con background-image puesto desde JS */
 .hero-fondo {
   width: 100%; height: 45svh; height: 45vh;
   flex-shrink: 0;
@@ -310,4 +310,13 @@ section > * { max-width: var(--max-width); margin-left: auto; margin-right: auto
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+@media (min-width: 481px) {
+  body { display: flex; flex-direction: column; align-items: center; background: #D8C8F0; }
+  main { max-width: var(--max-width); width: 100%; background: var(--color-fondo); }
+  .hero { max-width: var(--max-width); width: 100%; }
+  section, footer { max-width: var(--max-width); }
+  .portada { max-width: var(--max-width); left: 50%; transform: translateX(-50%); right: auto; width: var(--max-width); }
+  .music-bar { right: calc(50% - var(--max-width) / 2 + 14px); }
 }

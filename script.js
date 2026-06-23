@@ -239,7 +239,6 @@
     // Compartir
     const url   = encodeURIComponent(window.location.href);
     const texto = encodeURIComponent(`¡Te invito a la fiesta de ${EVENT.nombre || ''}! 🎉`);
-    const waEl  = document.getElementById('compartir-wa');
     const fbEl  = document.getElementById('compartir-fb');
     if (waEl) waEl.href = `https://api.whatsapp.com/send?text=${texto}%20${url}`;
     if (fbEl) fbEl.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
