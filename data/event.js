@@ -1,168 +1,81 @@
 // ============================================================
-//  KOMOREBI — Maqueta Infantil v1
+//  KOMOREBI — Demo Infantil: Sofía
 //  EDITA SOLO ESTE ARCHIVO para personalizar cada invitación.
-//  No toques index.html, style.css ni script.js.
 // ============================================================
 
 const EVENT = {
 
-  // ----------------------------------------------------------
-  //  DATOS GENERALES
-  // ----------------------------------------------------------
-  nombre: "Rebeca",                          // Nombre que aparece en portada y hero
-  nombreCompleto: "Rebeca García",           // Nombre completo (pie de página, etc.)
-  edad: "3",                                 // Número de años que cumple
-  edadTexto: "añitos",                       // "años", "añitos", "primaveras"
-  fechaISO: "2026-05-23T12:00:00",           // Para el countdown (ISO 8601)
-  fechaTexto: "Sábado 23 de mayo de 2026",   // Texto legible de la fecha
-  horaTexto: "12:00 PM",
-  tematica: "Haditas del bosque",            // Temática del evento (uso interno/visual)
+  nombre: "Sofía",
+  nombreCompleto: "Sofía Ramírez",
+  edad: "7",
+  edadTexto: "años",
+  fechaISO: "2026-08-01T13:00:00",
+  fechaTexto: "Sábado 1 de agosto de 2026",
+  horaTexto: "1:00 PM",
+  tematica: "K-Pop Stars",
 
-  // ----------------------------------------------------------
-  //  PALETA DE COLORES
-  //  Cambia estos 5 valores y cambia toda la invitación.
-  //  Son placeholders — sustituye con la paleta del cliente.
-  // ----------------------------------------------------------
   colores: {
-    primario:    "#E91E8C",   // Color principal (botones, acentos fuertes)
-    secundario:  "#F48FB1",   // Color de apoyo (fondos suaves, bordes)
-    fondo:       "#FFF0F6",   // Color de fondo general de la página
-    texto:       "#4A1942",   // Color del texto principal
-    acento:      "#FFD700",   // Color de detalles decorativos
+    primario:    "#C026D3",   // morado vibrante
+    secundario:  "#E879F9",   // lila suave
+    fondo:       "#FAF0FF",   // lavanda muy claro
+    texto:       "#3B0764",   // morado oscuro
+    acento:      "#FDE047",   // amarillo brillante
   },
 
-  // ----------------------------------------------------------
-  //  TIPOGRAFÍAS (nombres exactos de Google Fonts)
-  // ----------------------------------------------------------
   tipografias: {
-    display: "Dancing Script",   // Para el nombre y títulos principales
-    cuerpo:  "Nunito",           // Para textos de lectura
+    display: "Dancing Script",
+    cuerpo:  "Nunito",
   },
 
-  // ----------------------------------------------------------
-  //  PORTADA (pantalla de entrada con clic para música)
-  // ----------------------------------------------------------
   portada: {
-    // La imagen de portada va en assets/photos/portada.jpg
-    // Si no hay foto, usa solo el color de fondo
     usarFoto: true,
     textoBoton: "¡Toca para abrir tu invitación! 🎉",
   },
 
-  // ----------------------------------------------------------
-  //  HERO
-  // ----------------------------------------------------------
   hero: {
-    // Foto circular del/la festejado/a: assets/photos/hero.jpg
-    // Fondo opcional del hero (foto del salón/lugar): assets/photos/hero-fondo.jpg
-    usarFondoFoto: false,       // true = foto de salón, false = solo color
-    subtitulo: "cumple",        // "cumple", "festeja", "celebra"
-    emoji: "🎂",
+    usarFondoFoto: true,
+    subtitulo: "cumple",
+    emoji: "⭐",
   },
 
-  // ----------------------------------------------------------
-  //  TEXTO DE INVITACIÓN (sección debajo del countdown)
-  // ----------------------------------------------------------
-  textoInvitacion: "Con muchísimo amor queremos que seas parte de este día tan especial. ¡Ven a celebrar con nosotros y hagamos juntos un recuerdo que dure para siempre! 🌸",
+  textoInvitacion: "¡Quiero que seas parte de mi día más especial! Ven a celebrar conmigo, a bailar, reír y hacer recuerdos que nunca vamos a olvidar. 💜",
 
-  // ----------------------------------------------------------
-  //  GALERÍA (estilo polaroid apilada, navegable con toque)
-  //  Fotos en assets/photos/gallery-1.jpg hasta gallery-N.jpg
-  //  Agrega o quita entradas de esta lista según las fotos que tengas.
-  // ----------------------------------------------------------
   galeria: [
-    { archivo: "gallery-1.jpg", alt: "Foto 1 de Rebeca" },
-    { archivo: "gallery-2.jpg", alt: "Foto 2 de Rebeca" },
-    { archivo: "gallery-3.jpg", alt: "Foto 3 de Rebeca" },
-    { archivo: "gallery-4.jpg", alt: "Foto 4 de Rebeca" },
+    { archivo: "gallery-5.png", alt: "Sofía en el resbaladero" },
+    { archivo: "gallery-1.png", alt: "Sofía en los brincolines" },
+    { archivo: "gallery-2.png", alt: "Sofía posando" },
+    { archivo: "gallery-3.png", alt: "Sofía en el resbaladero amarillo" },
+    { archivo: "gallery-4.png", alt: "Sofía en Lingo Hospital" },
+    { archivo: "gallery-6.png", alt: "Sofía en el escenario" },
   ],
 
-  // ----------------------------------------------------------
-  //  UBICACIÓN
-  //  Dos modos:
-  //    "salon" → muestra foto del lugar + botón de ubicación
-  //    "domicilio" → muestra mapa embed de Google Maps directamente
-  // ----------------------------------------------------------
   ubicacion: {
-    modo: "domicilio",              // "salon" o "domicilio"
-    nombreLugar: "",                // Solo si modo = "salon"
-    // Foto del lugar: assets/photos/lugar.jpg (solo si modo = "salon")
-    linkUbicacion: "https://maps.app.goo.gl/XXXXXXX",  // Botón "Ver ubicación"
-    embedMapa: `<iframe src="https://www.google.com/maps/embed?pb=!1m18..." width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>`,
-    // Solo se usa el embed cuando modo = "domicilio"
+    modo: "salon",
+    nombreLugar: "Lingo Lingo Party",
+    linkUbicacion: "https://maps.app.goo.gl/56RdqiTPRM6SdNnb9",
+    embedMapa: `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d939.7!2d-100.2432293!3d25.6805236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8662eb0c76f4c985%3A0x10e940e1f88a4667!2sLingo%20Lingo%20Party!5e0!3m2!1ses!2smx!4v1" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>`,
   },
 
-  // ----------------------------------------------------------
-  //  PROGRAMA DEL DÍA
-  //  Si la lista está vacía [], la sección NO se muestra.
-  // ----------------------------------------------------------
-  programa: [
-    // { hora: "12:00", actividad: "Llegada de invitados" },
-    // { hora: "12:30", actividad: "Dinámica de juegos" },
-    // { hora: "14:00", actividad: "Comida" },
-    // { hora: "15:00", actividad: "Pastel y festejo" },
-  ],
+  programa: [],
+  menu: [],
+  vestimenta: { texto: "", emoji: "👗" },
+  mesaRegalos: { enlace: "", nombreTienda: "Amazon", textoBoton: "Ver lista de regalos 🎁" },
 
-  // ----------------------------------------------------------
-  //  MENÚ
-  //  Si la lista está vacía [], la sección NO se muestra.
-  // ----------------------------------------------------------
-  menu: [
-    // { platillo: "Hot dogs", descripcion: "Con papitas y refresco" },
-    // { platillo: "Pastel de vainilla", descripcion: "Decorado con el tema" },
-    // { platillo: "Agua fresca", descripcion: "Jamaica y horchata" },
-  ],
-
-  // ----------------------------------------------------------
-  //  CÓDIGO DE VESTIMENTA
-  //  Si texto está vacío "", la sección NO se muestra.
-  //  Ejemplos:
-  //    "Quinta con alberca: traje de baño y bloqueador 🩱☀️"
-  //    "Salón con brincolines: calcetines antiderrapantes 🧦"
-  // ----------------------------------------------------------
-  vestimenta: {
-    texto: "",
-    emoji: "👗",
-  },
-
-  // ----------------------------------------------------------
-  //  MESA DE REGALOS
-  //  Si enlace está vacío "", la sección NO se muestra.
-  //  Solo enlace a tienda comercial (Amazon, Liverpool, etc.)
-  //  Sin mención de sobres ni transferencias.
-  // ----------------------------------------------------------
-  mesaRegalos: {
-    enlace: "",
-    nombreTienda: "Amazon",   // "Amazon", "Liverpool", "El Palacio de Hierro"
-    textoBoton: "Ver lista de regalos 🎁",
-  },
-
-  // ----------------------------------------------------------
-  //  CONFIRMACIÓN DE ASISTENCIA
-  //  Acepta cualquier tipo de enlace: WhatsApp, Confirmalia, form, etc.
-  // ----------------------------------------------------------
   confirmacion: {
-    enlace: "https://wa.me/528110314514?text=¡Hola! Confirmo mi asistencia a la fiesta de Rebeca 🎉",
-    textoBoton: "Confirmar asistencia",
-    nombreContacto: "mamá Cira",
+    enlace: "https://wa.me/528110314514?text=¡Hola! Confirmo mi asistencia a la fiesta de Sofía 🎉",
+    textoBoton: "Confirmar asistencia 🎉",
+    nombreContacto: "mamá",
   },
 
-  // ----------------------------------------------------------
-  //  GUARDAR EN CALENDARIO
-  // ----------------------------------------------------------
   calendario: {
-    titulo: "Fiesta de Rebeca 🎂",
-    descripcion: "¡La fiesta de Rebeca! No faltes 🎉",
-    lugar: "",   // Se llena con la dirección del evento
+    titulo: "Fiesta de Sofía ⭐",
+    descripcion: "¡La fiesta de Sofía! No faltes 🎉",
+    lugar: "Lingo Lingo Party, Guadalupe, N.L.",
   },
 
-  // ----------------------------------------------------------
-  //  MÚSICA
-  //  Archivo en assets/music/cancion.mp3
-  // ----------------------------------------------------------
   musica: {
-    archivo: "assets/music/cancion.mp3",
-    textoPlayer: "🎵 Toca play para la música de la fiesta",
+    archivo: "assets/music/cancion.m4a",
+    textoPlayer: "🎵 Música de la fiesta",
   },
 
 };

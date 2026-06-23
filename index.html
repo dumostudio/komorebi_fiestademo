@@ -5,36 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="page-title">Invitación</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Google Fonts — se inyectan dinámicamente desde event.js -->
 </head>
 <body>
 
-  <!-- =====================================================
-       PORTADA — pantalla de entrada con toque para abrir
-  ====================================================== -->
+  <!-- PORTADA — toda la pantalla es el botón, sin UI -->
   <div id="portada" class="portada">
-    <div class="portada-overlay"></div>
-    <div class="portada-content">
-      <!-- Logo/ícono de manita (SVG inline, siempre presente) -->
-      <div class="portada-tap-icon">
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M32 8C32 8 20 20 20 36C20 44.837 25.373 52 32 52C38.627 52 44 44.837 44 36C44 20 32 8 32 8Z" fill="white" fill-opacity="0.9"/>
-          <circle cx="32" cy="36" r="6" fill="currentColor"/>
-          <!-- Ondas de toque -->
-          <circle cx="32" cy="36" r="14" stroke="white" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"/>
-          <circle cx="32" cy="36" r="20" stroke="white" stroke-width="1" stroke-dasharray="3 4" opacity="0.3"/>
-        </svg>
-      </div>
-      <p class="portada-texto" id="portada-texto"></p>
+    <div class="portada-hint">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 11V7a3 3 0 116 0v4M9 11H7a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-2M9 11h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Toca para abrir</span>
     </div>
   </div>
 
-  <!-- =====================================================
-       CONTENIDO PRINCIPAL — oculto hasta que cierran portada
-  ====================================================== -->
   <main id="main-content" class="hidden">
 
-    <!-- Reproductor de música (sticky) -->
+    <!-- Barra de música (sticky, discreta) -->
     <div class="music-bar" id="music-bar">
       <button class="music-btn" id="music-btn" aria-label="Reproducir música">
         <span class="music-icon">▶</span>
@@ -43,14 +29,13 @@
       <audio id="audio-player" loop></audio>
     </div>
 
-    <!-- =====================================================
-         HERO
-    ====================================================== -->
+    <!-- HERO -->
     <section class="hero" id="hero">
       <div class="hero-fondo" id="hero-fondo"></div>
       <div class="hero-content">
         <div class="hero-circulo">
-          <img src="assets/photos/hero.jpg" alt="Foto de la festejada" class="hero-foto" id="hero-foto" />
+          <img src="assets/photos/hero.jpg" alt="Foto de la festejada" class="hero-foto" id="hero-foto"
+               onerror="this.style.display='none'" />
         </div>
         <p class="hero-invito">¡TE INVITO A MI FIESTA!</p>
         <h1 class="hero-nombre" id="hero-nombre"></h1>
@@ -58,9 +43,7 @@
       </div>
     </section>
 
-    <!-- =====================================================
-         COUNTDOWN
-    ====================================================== -->
+    <!-- COUNTDOWN -->
     <section class="countdown-section">
       <div class="countdown-grid">
         <div class="countdown-item">
@@ -86,68 +69,46 @@
       <p class="countdown-fecha" id="countdown-fecha"></p>
     </section>
 
-    <!-- =====================================================
-         TEXTO DE INVITACIÓN
-    ====================================================== -->
+    <!-- TEXTO INVITACIÓN -->
     <section class="invitacion-texto-section">
       <p class="invitacion-texto" id="invitacion-texto"></p>
     </section>
 
-    <!-- =====================================================
-         GALERÍA — polaroid apilada, navegable con toque
-    ====================================================== -->
+    <!-- GALERÍA -->
     <section class="galeria-section" id="galeria-section">
       <div class="galeria-contador" id="galeria-contador">1 / 1</div>
-      <div class="galeria-stack" id="galeria-stack">
-        <!-- Las tarjetas se generan desde JS -->
-      </div>
-      <div class="galeria-hint">
-        <span>👆</span>
-      </div>
+      <div class="galeria-stack" id="galeria-stack"></div>
+      <div class="galeria-hint">👆</div>
     </section>
 
-    <!-- =====================================================
-         UBICACIÓN
-    ====================================================== -->
+    <!-- UBICACIÓN -->
     <section class="ubicacion-section" id="ubicacion-section">
       <h2 class="seccion-titulo">¿Dónde nos vemos?</h2>
-
-      <!-- Modo: salon -->
       <div id="ubicacion-salon" class="hidden">
         <div class="salon-foto-wrap">
-          <img src="assets/photos/lugar.jpg" alt="Foto del lugar" class="salon-foto" />
+          <img src="assets/photos/lugar.jpg" alt="Foto del lugar" class="salon-foto" onerror="this.parentElement.style.display='none'" />
           <p class="salon-nombre" id="salon-nombre"></p>
         </div>
-        <a class="btn-ubicacion" id="btn-ubicacion-salon" target="_blank" rel="noopener">
-          📍 Ver ubicación
-        </a>
+        <a class="btn-ubicacion" id="btn-ubicacion-salon" target="_blank" rel="noopener">📍 Ver ubicación</a>
       </div>
-
-      <!-- Modo: domicilio -->
       <div id="ubicacion-domicilio" class="hidden">
         <div class="mapa-embed" id="mapa-embed"></div>
       </div>
     </section>
 
-    <!-- =====================================================
-         PROGRAMA DEL DÍA (invisible si vacío)
-    ====================================================== -->
+    <!-- PROGRAMA (invisible si vacío) -->
     <section class="programa-section hidden" id="programa-section">
       <h2 class="seccion-titulo">Programa del día 🗓️</h2>
       <div class="programa-lista" id="programa-lista"></div>
     </section>
 
-    <!-- =====================================================
-         MENÚ (invisible si vacío)
-    ====================================================== -->
+    <!-- MENÚ (invisible si vacío) -->
     <section class="menu-section hidden" id="menu-section">
       <h2 class="seccion-titulo">¿Qué vamos a comer? 🍽️</h2>
       <div class="menu-lista" id="menu-lista"></div>
     </section>
 
-    <!-- =====================================================
-         CÓDIGO DE VESTIMENTA (invisible si vacío)
-    ====================================================== -->
+    <!-- VESTIMENTA (invisible si vacío) -->
     <section class="vestimenta-section hidden" id="vestimenta-section">
       <h2 class="seccion-titulo">Código de vestimenta</h2>
       <div class="vestimenta-card">
@@ -156,36 +117,25 @@
       </div>
     </section>
 
-    <!-- =====================================================
-         MESA DE REGALOS (invisible si vacío)
-    ====================================================== -->
+    <!-- MESA DE REGALOS (invisible si vacío) -->
     <section class="regalos-section hidden" id="regalos-section">
       <h2 class="seccion-titulo">Mesa de regalos 🎁</h2>
       <p class="regalos-copy">Tu presencia es el mejor regalo. Pero si quieres consentir a <span id="regalos-nombre"></span>, aquí encontrarás algunas ideas con mucho cariño.</p>
       <a class="btn-regalos" id="btn-regalos" target="_blank" rel="noopener"></a>
     </section>
 
-    <!-- =====================================================
-         CONFIRMACIÓN DE ASISTENCIA
-    ====================================================== -->
+    <!-- CONFIRMACIÓN -->
     <section class="confirmacion-section">
       <h2 class="seccion-titulo">¿Vienes? 🥳</h2>
       <p class="confirmacion-copy">Confírmale tu asistencia a <span id="confirmacion-contacto"></span> para que nadie se quede sin lugar.</p>
       <a class="btn-confirmar" id="btn-confirmar" target="_blank" rel="noopener"></a>
     </section>
 
-    <!-- =====================================================
-         GUARDAR EN CALENDARIO
-    ====================================================== -->
+    <!-- CALENDARIO -->
     <section class="calendario-section">
-      <a class="btn-calendario" id="btn-calendario" target="_blank" rel="noopener">
-        📅 Guardar en mi calendario
-      </a>
+      <a class="btn-calendario" id="btn-calendario">📅 Guardar en mi calendario</a>
     </section>
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
     <footer class="footer">
       <p>Creado con <span class="footer-corazon">♥</span> por <strong>Komorebi</strong></p>
     </footer>
