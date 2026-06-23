@@ -1,63 +1,58 @@
 (function () {
   'use strict';
 
-  // ── 1. IDENTIDAD ─────────────────────────────────────────
-  function aplicarIdentidad() {
-    const c = EVENT.colores, t = EVENT.tipografias;
-    const r = document.documentElement;
-    r.style.setProperty('--color-fondo',        c.fondo);
-    r.style.setProperty('--color-caja',         c.caja);
-    r.style.setProperty('--color-caja-alt',     c.cajaAlt);
-    r.style.setProperty('--color-primario',     c.primario);
-    r.style.setProperty('--color-accion',       c.accion);
-    r.style.setProperty('--color-accion-hover', c.accionHover || '#FF1A7A');
-    r.style.setProperty('--color-detalle',      c.detalle);
-    r.style.setProperty('--color-dorado',       c.dorado);
-    r.style.setProperty('--color-texto',        c.texto);
-    r.style.setProperty('--color-texto-suave',  c.textoSuave);
-    r.style.setProperty('--font-display', `'${t.display}', cursive`);
-    r.style.setProperty('--font-cuerpo',  `'${t.cuerpo}', sans-serif`);
+  // ── PARTÍCULAS ───────────────────────────────────────────
+  function crearParticulas() {
+    const contenedor = document.createElement('div');
+    contenedor.style.cssText = `
+      position: fixed; top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none; z-index: 0; overflow: hidden;
+    `;
+    document.body.insertBefore(contenedor, document.body.firstChild);
 
-    const link = document.createElement('link');
-    link.rel  = 'stylesheet';
-    link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(t.display)}:wght@700&family=${encodeURIComponent(t.cuerpo)}:wght@300;400;700;800&display=swap`;
-    document.head.appendChild(link);
-
-    document.getElementById('page-title').textContent = `Fiesta de ${EVENT.nombre}`;
-  }
-
-  // ── 2. CENTELLAS ─────────────────────────────────────────
-  function crearCentellas() {
-    const contenedor = document.getElementById('centellas');
-    const cantidad   = Math.floor(Math.random() * 8) + 18; // 18-25
+    const cantidad = Math.floor(Math.random() * 6) + 20; // 20-25
     for (let i = 0; i < cantidad; i++) {
-      const el = document.createElement('div');
-      el.className = 'centella';
-      const size     = Math.random() * 3 + 3;          // 3-6px
-      const left     = Math.random() * 100;             // % horizontal
-      const delay    = Math.random() * 12;              // s offset
-      const duration = Math.random() * 6 + 6;          // 6-12s
-      const drift    = (Math.random() - 0.5) * 40 + 'px'; // oscilación lateral
-      const opacity  = (Math.random() * 0.3 + 0.3).toFixed(2); // 0.3-0.6
+      const p    = document.createElement('div');
+      const size = (Math.random() * 3 + 3).toFixed(1);           // 3-6px
+      const left = (Math.random() * 100).toFixed(1);              // 0-100vw
+      const dur  = (Math.random() * 6 + 7).toFixed(1);           // 7-13s
+      const del  = -(Math.random() * 13).toFixed(1);              // offset negativo = ya en pantalla
+      const op   = (Math.random() * 0.3 + 0.25).toFixed(2);      // 0.25-0.55
+      const dx   = ((Math.random() - 0.5) * 50).toFixed(0) + 'px'; // oscilación
 
-      el.style.cssText = `
+      p.style.cssText = `
+        position: absolute;
         width: ${size}px; height: ${size}px;
-        left: ${left}%;
-        top: -10px;
-        opacity: ${opacity};
-        animation-duration: ${duration}s;
-        animation-delay: -${delay}s;
-        --drift: ${drift};
+        border-radius: 50%;
+        background: #D4A520;
+        opacity: ${op};
+        left: ${left}vw;
+        top: -8px;
+        animation: caerParticula ${dur}s ${del}s linear infinite;
+        --dx: ${dx};
       `;
-      contenedor.appendChild(el);
+      contenedor.appendChild(p);
     }
+
+    // Keyframes inyectados dinámicamente
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes caerParticula {
+        0%   { transform: translateY(0) translateX(0); opacity: 0; }
+        8%   { opacity: 1; }
+        92%  { opacity: 0.4; }
+        100% { transform: translateY(105vh) translateX(var(--dx)); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
   }
 
-  // ── 3. PORTADA ───────────────────────────────────────────
+  // ── PORTADA ──────────────────────────────────────────────
   function iniciarPortada() {
     const portada = document.getElementById('portada');
     const main    = document.getElementById('main-content');
-    if (EVENT.portada.usarFoto) {
+    if (typeof EVENT !== 'undefined' && EVENT.portada?.usarFoto) {
       portada.style.backgroundImage = "url('assets/photos/portada.jpg')";
     }
     function abrir() {
@@ -72,12 +67,13 @@
     }, { once: true });
   }
 
-  // ── 4. MÚSICA ────────────────────────────────────────────
+  // ── MÚSICA ───────────────────────────────────────────────
   function iniciarMusica() {
+    if (typeof EVENT === 'undefined') return;
     const audio = document.getElementById('audio-player');
     const btn   = document.getElementById('music-btn');
     const icon  = btn.querySelector('.music-icon');
-    audio.src = EVENT.musica.archivo;
+    audio.src = EVENT.musica?.archivo || '';
     audio.play().then(() => { icon.textContent = '⏸'; }).catch(() => { icon.textContent = '▶'; });
     btn.addEventListener('click', () => {
       if (audio.paused) { audio.play(); icon.textContent = '⏸'; }
@@ -85,15 +81,22 @@
     });
   }
 
-  // ── 5. HERO ──────────────────────────────────────────────
+  // ── HERO ─────────────────────────────────────────────────
   function construirHero() {
-    document.getElementById('hero-nombre').textContent = EVENT.nombre;
-    document.getElementById('hero-frase').textContent  = EVENT.hero.fraseEdad;
-    document.getElementById('hero-fecha').textContent  = `${EVENT.fechaTexto} · ${EVENT.horaTexto}`;
+    if (typeof EVENT === 'undefined') return;
+    if (EVENT.hero?.usarFondoFoto) {
+      document.getElementById('hero-fondo').style.backgroundImage =
+        "url('assets/photos/hero-fondo.jpg')";
+    }
+    document.getElementById('hero-nombre').textContent = EVENT.nombre || '';
+    document.getElementById('hero-edad').textContent   = EVENT.hero?.fraseEdad || '';
+    document.getElementById('countdown-fecha').textContent =
+      `${EVENT.fechaTexto || ''} · ${EVENT.horaTexto || ''}`;
   }
 
-  // ── 6. COUNTDOWN ─────────────────────────────────────────
+  // ── COUNTDOWN ────────────────────────────────────────────
   function iniciarCountdown() {
+    if (typeof EVENT === 'undefined') return;
     const meta = new Date(EVENT.fechaISO).getTime();
     const pad  = n => String(n).padStart(2, '0');
     function tick() {
@@ -106,15 +109,17 @@
     tick(); setInterval(tick, 1000);
   }
 
-  // ── 7. MENSAJE PERSONAL ──────────────────────────────────
-  function construirMensaje() {
-    document.getElementById('mensaje-texto').textContent = EVENT.textoInvitacion;
+  // ── TEXTO INVITACIÓN ─────────────────────────────────────
+  function construirTexto() {
+    if (typeof EVENT === 'undefined') return;
+    document.getElementById('invitacion-texto').textContent = EVENT.textoInvitacion || '';
   }
 
-  // ── 8. GALERÍA ───────────────────────────────────────────
+  // ── GALERÍA ──────────────────────────────────────────────
   function construirGaleria() {
+    if (typeof EVENT === 'undefined') return;
     const fotos = EVENT.galeria;
-    if (!fotos || fotos.length === 0) {
+    if (!fotos || !fotos.length) {
       document.getElementById('galeria-section').classList.add('hidden'); return;
     }
     const stack    = document.getElementById('galeria-stack');
@@ -126,7 +131,7 @@
       card.className = 'galeria-card' + (i === 0 ? ' activa' : '');
       card.style.zIndex = fotos.length - i;
       const img = document.createElement('img');
-      img.src = `assets/photos/${foto.archivo}`; img.alt = foto.alt;
+      img.src = `assets/photos/${foto.archivo}`; img.alt = foto.alt || '';
       card.appendChild(img); stack.appendChild(card);
     });
 
@@ -150,26 +155,30 @@
     stack.addEventListener('touchend',   e => { if (Math.abs(e.changedTouches[0].clientX - startX) > 30) avanzar(); });
   }
 
-  // ── 9. UBICACIÓN ─────────────────────────────────────────
+  // ── UBICACIÓN ────────────────────────────────────────────
   function construirUbicacion() {
+    if (typeof EVENT === 'undefined') return;
     const u = EVENT.ubicacion;
+    const titulo = document.getElementById('ubicacion-titulo');
+    if (titulo) titulo.textContent = 'Dónde nos vemos';
+
     if (u.modo === 'salon') {
       document.getElementById('ubicacion-salon').classList.remove('hidden');
-      const el = document.getElementById('salon-nombre-overlay');
-      if (el) el.textContent = u.nombreLugar;
+      const sn = document.getElementById('salon-nombre');
+      if (sn) sn.textContent = u.nombreLugar || '';
       document.getElementById('btn-ubicacion-salon').href = u.linkUbicacion;
     } else {
       document.getElementById('ubicacion-domicilio').classList.remove('hidden');
-      const el = document.getElementById('salon-nombre-mapa');
-      if (el && u.nombreLugar) el.textContent = u.nombreLugar;
-      document.getElementById('mapa-embed').innerHTML = u.embedMapa;
+      const snm = document.getElementById('salon-nombre-mapa');
+      if (snm && u.nombreLugar) snm.textContent = u.nombreLugar;
+      document.getElementById('mapa-embed').innerHTML = u.embedMapa || '';
       document.getElementById('btn-ubicacion-maps').href = u.linkUbicacion;
     }
   }
 
-  // ── 10. SECCIONES OPCIONALES ─────────────────────────────
+  // ── SECCIONES OPCIONALES ─────────────────────────────────
   function construirPrograma() {
-    if (!EVENT.programa || !EVENT.programa.length) return;
+    if (!EVENT?.programa?.length) return;
     document.getElementById('programa-section').classList.remove('hidden');
     const list = document.getElementById('programa-lista');
     EVENT.programa.forEach(item => {
@@ -180,68 +189,69 @@
   }
 
   function construirMenu() {
-    if (!EVENT.menu || !EVENT.menu.length) return;
+    if (!EVENT?.menu?.length) return;
     document.getElementById('menu-section').classList.remove('hidden');
     const list = document.getElementById('menu-lista');
     EVENT.menu.forEach(item => {
-      const el = document.createElement('div'); el.className = 'menu-item';
+      const el = document.createElement('div');
       el.innerHTML = `<p class="menu-platillo">${item.platillo}</p>${item.descripcion ? `<p class="menu-desc">${item.descripcion}</p>` : ''}`;
       list.appendChild(el);
     });
   }
 
   function construirVestimenta() {
-    if (!EVENT.vestimenta?.texto) return;
+    if (!EVENT?.vestimenta?.texto) return;
     document.getElementById('vestimenta-section').classList.remove('hidden');
     document.getElementById('vestimenta-emoji').textContent = EVENT.vestimenta.emoji || '';
     document.getElementById('vestimenta-texto').textContent = EVENT.vestimenta.texto;
   }
 
   function construirMesaRegalos() {
-    if (!EVENT.mesaRegalos?.enlace) return;
+    if (!EVENT?.mesaRegalos?.enlace) return;
     document.getElementById('regalos-section').classList.remove('hidden');
-    document.getElementById('regalos-nombre').textContent = EVENT.nombre;
+    document.getElementById('regalos-nombre').textContent = EVENT.nombre || '';
     const btn = document.getElementById('btn-regalos');
-    btn.textContent = EVENT.mesaRegalos.textoBoton; btn.href = EVENT.mesaRegalos.enlace;
+    btn.textContent = EVENT.mesaRegalos.textoBoton || 'Ver lista de regalos';
+    btn.href = EVENT.mesaRegalos.enlace;
   }
 
-  // ── 11. CONFIRMACIÓN ─────────────────────────────────────
+  // ── CONFIRMACIÓN ─────────────────────────────────────────
   function construirConfirmacion() {
-    document.getElementById('confirmacion-copy').textContent = EVENT.confirmacion.textoAcompanamiento ||
-      `Avísale a ${EVENT.confirmacion.nombreContacto} para que nadie se quede sin lugar.`;
+    if (typeof EVENT === 'undefined') return;
+    const contacto = document.getElementById('confirmacion-contacto');
+    if (contacto) contacto.textContent = EVENT.confirmacion?.nombreContacto || '';
     const btn = document.getElementById('btn-confirmar');
-    btn.href = EVENT.confirmacion.enlace;
+    btn.href = EVENT.confirmacion?.enlace || '#';
   }
 
-  // ── 12. CALENDARIO Y COMPARTIR ───────────────────────────
+  // ── CALENDARIO Y COMPARTIR ───────────────────────────────
   function construirCalendario() {
-    const cal = EVENT.calendario;
+    if (typeof EVENT === 'undefined') return;
+    const cal = EVENT.calendario || {};
     const f   = new Date(EVENT.fechaISO);
     const fin = new Date(f.getTime() + 4 * 3600000);
     const fmt = d => `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}T${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}00`;
-    const ics = `BEGIN:VCALENDAR\r\nVERSION:2.0\r\nBEGIN:VEVENT\r\nDTSTART:${fmt(f)}\r\nDTEND:${fmt(fin)}\r\nSUMMARY:${cal.titulo}\r\nDESCRIPTION:${cal.descripcion}\r\nLOCATION:${cal.lugar}\r\nEND:VEVENT\r\nEND:VCALENDAR`;
+    const ics = `BEGIN:VCALENDAR\r\nVERSION:2.0\r\nBEGIN:VEVENT\r\nDTSTART:${fmt(f)}\r\nDTEND:${fmt(fin)}\r\nSUMMARY:${cal.titulo||''}\r\nDESCRIPTION:${cal.descripcion||''}\r\nLOCATION:${cal.lugar||''}\r\nEND:VEVENT\r\nEND:VCALENDAR`;
     const btn = document.getElementById('btn-calendario');
     btn.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
-    btn.download = `fiesta-${EVENT.nombre.toLowerCase()}.ics`;
+    btn.download = `fiesta-${(EVENT.nombre || 'evento').toLowerCase()}.ics`;
 
-    // Íconos de compartir
+    // Compartir
     const url   = encodeURIComponent(window.location.href);
-    const texto = encodeURIComponent(`¡Te invito a la fiesta de ${EVENT.nombre}! 🎉`);
-    document.getElementById('compartir-wa').href =
-      `https://api.whatsapp.com/send?text=${texto}%20${url}`;
-    document.getElementById('compartir-fb').href =
-      `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-    // Instagram no tiene API de compartir URL — el link ya apunta a la app
+    const texto = encodeURIComponent(`¡Te invito a la fiesta de ${EVENT.nombre || ''}! 🎉`);
+    const waEl  = document.getElementById('compartir-wa');
+    const fbEl  = document.getElementById('compartir-fb');
+    if (waEl) waEl.href = `https://api.whatsapp.com/send?text=${texto}%20${url}`;
+    if (fbEl) fbEl.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
   }
 
   // ── INIT ─────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
-    aplicarIdentidad();
-    crearCentellas();
+    crearParticulas();
     iniciarPortada();
     construirHero();
     iniciarCountdown();
-    construirMensaje();
+    construirTexto();
     construirGaleria();
     construirUbicacion();
     construirPrograma();

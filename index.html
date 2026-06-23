@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@300;400;700;800&display=swap" rel="stylesheet">
   <title id="page-title">Invitación</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Centellas doradas — se generan desde JS -->
-  <div class="centellas" id="centellas" aria-hidden="true"></div>
-
-  <!-- PORTADA -->
+  <!-- PORTADA — toda la pantalla, sin UI -->
   <div id="portada" class="portada">
     <div class="portada-hint">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 11V7a3 3 0 116 0v4M9 11H7a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-2M9 11h6"
-              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9 11V7a3 3 0 116 0v4M9 11H7a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-2M9 11h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <span>Toca para abrir</span>
     </div>
@@ -24,7 +23,7 @@
 
   <main id="main-content" class="hidden">
 
-    <!-- Botón de música flotante -->
+    <!-- Botón de música — solo el círculo, sin barra ni texto -->
     <div class="music-bar" id="music-bar">
       <button class="music-btn" id="music-btn" aria-label="Reproducir música">
         <span class="music-icon">▶</span>
@@ -34,179 +33,139 @@
 
     <!-- HERO -->
     <section class="hero" id="hero">
-      <!-- Imagen horizontal de personajes — 45-50% superior -->
-      <div class="hero-imagen-wrap">
-        <img src="assets/photos/hero-fondo.jpg" alt="Personajes del evento" id="hero-img"
-             onerror="this.parentElement.style.background='var(--color-caja)'" />
-      </div>
-      <!-- Contenido: círculo + nombre + frase + fecha + countdown -->
+      <div class="hero-fondo" id="hero-fondo"></div>
       <div class="hero-content">
-        <div class="hero-circulo-wrap">
-          <div class="hero-circulo">
-            <div class="hero-circulo-inner">
-              <img src="assets/photos/hero.jpg" alt="Foto de la festejada"
-                   class="hero-foto" onerror="this.style.display='none'" />
-            </div>
-          </div>
+        <div class="hero-circulo">
+          <img src="assets/photos/hero.jpg" alt="Foto de la festejada" class="hero-foto"
+               onerror="this.style.display='none'" />
         </div>
         <h1 class="hero-nombre" id="hero-nombre"></h1>
-        <p class="hero-frase" id="hero-frase"></p>
-        <p class="hero-fecha" id="hero-fecha"></p>
-        <div class="hero-countdown">
+        <p class="hero-edad" id="hero-edad"></p>
+        <p class="countdown-fecha" id="countdown-fecha"></p>
+        <!-- Countdown dentro del hero -->
+        <div class="countdown-grid">
           <div class="countdown-item">
             <span class="countdown-num" id="cd-dias">00</span>
-            <span class="countdown-label">Días</span>
+            <span class="countdown-label">DÍAS</span>
           </div>
-          <span class="countdown-sep">:</span>
+          <div class="countdown-sep">:</div>
           <div class="countdown-item">
             <span class="countdown-num" id="cd-horas">00</span>
-            <span class="countdown-label">Horas</span>
+            <span class="countdown-label">HORAS</span>
           </div>
-          <span class="countdown-sep">:</span>
+          <div class="countdown-sep">:</div>
           <div class="countdown-item">
             <span class="countdown-num" id="cd-min">00</span>
-            <span class="countdown-label">Min</span>
+            <span class="countdown-label">MIN</span>
           </div>
-          <span class="countdown-sep">:</span>
+          <div class="countdown-sep">:</div>
           <div class="countdown-item">
             <span class="countdown-num" id="cd-seg">00</span>
-            <span class="countdown-label">Seg</span>
+            <span class="countdown-label">SEG</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- MENSAJE PERSONAL — caja estándar, sin título -->
-    <section class="mensaje-section">
-      <div class="caja caja-estandar">
-        <p class="mensaje-texto" id="mensaje-texto"></p>
-      </div>
+    <!-- TEXTO INVITACIÓN -->
+    <section class="invitacion-texto-section">
+      <p class="invitacion-texto" id="invitacion-texto"></p>
     </section>
 
-    <!-- GALERÍA — sin caja -->
+    <!-- GALERÍA -->
     <section class="galeria-section" id="galeria-section">
       <div class="galeria-contador" id="galeria-contador">1 / 1</div>
       <div class="galeria-stack" id="galeria-stack"></div>
       <div class="galeria-hint">👆</div>
     </section>
 
-    <!-- UBICACIÓN — caja alterna -->
+    <!-- UBICACIÓN -->
     <section class="ubicacion-section" id="ubicacion-section">
-      <div class="caja caja-alt">
-        <p class="seccion-titulo">Dónde nos vemos</p>
-        <div id="ubicacion-salon" class="hidden">
-          <div class="salon-foto-wrap">
-            <img src="assets/photos/lugar.jpg" alt="Foto del lugar" class="salon-foto"
-                 onerror="this.parentElement.style.display='none'" />
-            <p class="salon-nombre-overlay" id="salon-nombre-overlay"></p>
-          </div>
-          <a class="btn-primario" id="btn-ubicacion-salon" target="_blank" rel="noopener">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="white"/></svg>
-            Abrir en Google Maps
-          </a>
+      <h2 class="seccion-titulo" id="ubicacion-titulo"></h2>
+      <div id="ubicacion-salon" class="hidden">
+        <div class="salon-foto-wrap">
+          <img src="assets/photos/lugar.jpg" alt="Foto del lugar" class="salon-foto"
+               onerror="this.parentElement.style.display='none'" />
+          <p class="salon-nombre" id="salon-nombre"></p>
         </div>
-        <div id="ubicacion-domicilio" class="hidden">
-          <p class="salon-nombre-mapa" id="salon-nombre-mapa"></p>
-          <div class="mapa-embed" id="mapa-embed"></div>
-          <a class="btn-primario" id="btn-ubicacion-maps" target="_blank" rel="noopener">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="white"/></svg>
-            Abrir en Google Maps
-          </a>
-        </div>
+        <a class="btn-ubicacion" id="btn-ubicacion-salon" target="_blank" rel="noopener">Ver ubicación</a>
+      </div>
+      <div id="ubicacion-domicilio" class="hidden">
+        <p class="salon-nombre-mapa" id="salon-nombre-mapa"></p>
+        <div class="mapa-embed" id="mapa-embed"></div>
+        <a class="btn-ubicacion" id="btn-ubicacion-maps" target="_blank" rel="noopener">Abrir en Google Maps</a>
       </div>
     </section>
 
-    <!-- PROGRAMA — caja estándar (invisible si vacío) -->
+    <!-- PROGRAMA (invisible si vacío) -->
     <section class="programa-section hidden" id="programa-section">
-      <div class="caja caja-estandar">
-        <p class="seccion-titulo">Programa</p>
-        <div class="programa-lista" id="programa-lista"></div>
-      </div>
+      <h2 class="seccion-titulo">Programa del día</h2>
+      <div class="programa-lista" id="programa-lista"></div>
     </section>
 
-    <!-- MENÚ — caja alterna (invisible si vacío) -->
+    <!-- MENÚ (invisible si vacío) -->
     <section class="menu-section hidden" id="menu-section">
-      <div class="caja caja-alt">
-        <p class="seccion-titulo">Qué vamos a comer</p>
-        <div class="menu-lista" id="menu-lista"></div>
-      </div>
+      <h2 class="seccion-titulo">Qué vamos a comer</h2>
+      <div class="menu-lista" id="menu-lista"></div>
     </section>
 
-    <!-- VESTIMENTA — caja estándar (invisible si vacío) -->
+    <!-- VESTIMENTA (invisible si vacío) -->
     <section class="vestimenta-section hidden" id="vestimenta-section">
-      <div class="caja caja-estandar">
-        <p class="seccion-titulo">Código de vestimenta</p>
-        <div class="vestimenta-card">
-          <span class="vestimenta-emoji" id="vestimenta-emoji"></span>
-          <p id="vestimenta-texto"></p>
-        </div>
+      <h2 class="seccion-titulo">Código de vestimenta</h2>
+      <div class="vestimenta-card">
+        <span class="vestimenta-emoji" id="vestimenta-emoji"></span>
+        <p class="vestimenta-texto" id="vestimenta-texto"></p>
       </div>
     </section>
 
-    <!-- MESA DE REGALOS — caja alterna (invisible si vacío) -->
+    <!-- MESA DE REGALOS (invisible si vacío) -->
     <section class="regalos-section hidden" id="regalos-section">
-      <div class="caja caja-alt">
-        <p class="seccion-titulo">Mesa de regalos</p>
-        <p class="regalos-copy">Tu presencia es el mejor regalo. Pero si quieres consentir a
-          <span id="regalos-nombre"></span>, aquí encontrarás algunas ideas con mucho cariño.</p>
-        <a class="btn-primario" id="btn-regalos" target="_blank" rel="noopener"></a>
-      </div>
+      <h2 class="seccion-titulo">Mesa de regalos</h2>
+      <p class="regalos-copy">Tu presencia es el mejor regalo. Pero si quieres consentir a <span id="regalos-nombre"></span>, aquí encontrarás algunas ideas con mucho cariño.</p>
+      <a class="btn-regalos" id="btn-regalos" target="_blank" rel="noopener"></a>
     </section>
 
-    <!-- CONFIRMACIÓN — caja estándar -->
+    <!-- CONFIRMACIÓN -->
     <section class="confirmacion-section">
-      <div class="caja caja-estandar">
-        <p class="seccion-titulo">¿Podemos contar contigo?</p>
-        <p class="confirmacion-copy" id="confirmacion-copy"></p>
-        <a class="btn-primario" id="btn-confirmar" target="_blank" rel="noopener">
-          <!-- ícono WhatsApp SVG -->
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/>
+      <div class="caja">
+        <h2 class="seccion-titulo">¿Podemos contar contigo?</h2>
+        <p class="confirmacion-copy">Confírmale tu asistencia a <span id="confirmacion-contacto"></span> para que nadie se quede sin lugar.</p>
+        <a class="btn-confirmar" id="btn-confirmar" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white" style="flex-shrink:0">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2"/>
           </svg>
           Confirmar asistencia
         </a>
       </div>
     </section>
 
-    <!-- CALENDARIO Y COMPARTIR — caja alterna -->
+    <!-- CALENDARIO -->
     <section class="calendario-section">
-      <div class="caja caja-alt">
+      <div class="caja">
         <p class="calendario-hint">¡Guarda la fecha para no olvidarla!</p>
-        <a class="btn-secundario" id="btn-calendario">
-          <!-- ícono calendario SVG -->
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <a class="btn-calendario" id="btn-calendario">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0">
             <rect x="3" y="4" width="18" height="18" rx="2" stroke="#E8006A" stroke-width="2"/>
             <path d="M3 9h18M8 2v4M16 2v4" stroke="#E8006A" stroke-width="2" stroke-linecap="round"/>
           </svg>
           Guardar en mi calendario
         </a>
         <p class="compartir-hint">Comparte con quien quieras</p>
-        <div class="compartir-iconos" id="compartir-iconos">
-          <!-- WhatsApp -->
+        <div class="compartir-iconos">
           <a id="compartir-wa" target="_blank" rel="noopener" aria-label="Compartir por WhatsApp">
-            <svg viewBox="0 0 24 24" fill="#25D366">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2"/>
-            </svg>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2"/></svg>
           </a>
-          <!-- Instagram — solo abre app -->
           <a id="compartir-ig" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Compartir en Instagram">
-            <svg viewBox="0 0 24 24" fill="none">
-              <rect x="2" y="2" width="20" height="20" rx="5" stroke="#E1306C" stroke-width="2"/>
-              <circle cx="12" cy="12" r="4" stroke="#E1306C" stroke-width="2"/>
-              <circle cx="17.5" cy="6.5" r="1.2" fill="#E1306C"/>
-            </svg>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#E1306C" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="#E1306C" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="#E1306C"/></svg>
           </a>
-          <!-- Facebook -->
           <a id="compartir-fb" target="_blank" rel="noopener" aria-label="Compartir en Facebook">
-            <svg viewBox="0 0 24 24" fill="#1877F2">
-              <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073"/>
-            </svg>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073"/></svg>
           </a>
         </div>
       </div>
     </section>
 
-    <footer>
+    <footer class="footer">
       <p>Creado con <span class="footer-corazon">♥</span> por <strong>Komorebi</strong></p>
     </footer>
 
