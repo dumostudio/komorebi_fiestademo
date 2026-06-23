@@ -1,0 +1,526 @@
+/* ============================================================
+   KOMOREBI — Maqueta Infantil v1 — style.css
+   Los colores y tipografías vienen de event.js vía variables CSS.
+   No edites este archivo para personalizar una invitación.
+   ============================================================ */
+
+/* --- Variables base (las sobreescribe script.js con los valores de event.js) --- */
+:root {
+  --color-primario:   #E91E8C;
+  --color-secundario: #F48FB1;
+  --color-fondo:      #FFF0F6;
+  --color-texto:      #4A1942;
+  --color-acento:     #FFD700;
+  --font-display:     'Dancing Script', cursive;
+  --font-cuerpo:      'Nunito', sans-serif;
+
+  --radius-card:  16px;
+  --radius-btn:   50px;
+  --shadow-card:  0 4px 20px rgba(0,0,0,0.10);
+  --shadow-btn:   0 4px 14px rgba(0,0,0,0.15);
+  --max-width:    480px;
+  --padding-x:    24px;
+}
+
+/* --- Reset --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--font-cuerpo);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+
+.hidden { display: none !important; }
+
+/* --- Layout wrapper --- */
+section, .music-bar, footer {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 40px var(--padding-x);
+}
+
+/* ============================================================
+   PORTADA
+   ============================================================ */
+.portada {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: var(--color-primario);
+  background-image: var(--portada-bg, none);
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.6s ease;
+}
+.portada-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+}
+.portada-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  padding: var(--padding-x);
+}
+.portada-tap-icon {
+  width: 80px;
+  height: 80px;
+  color: var(--color-acento);
+  animation: pulse 1.8s ease-in-out infinite;
+}
+.portada-texto {
+  color: white;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  max-width: 280px;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.12); opacity: 0.8; }
+}
+.portada.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ============================================================
+   MÚSICA (barra sticky)
+   ============================================================ */
+.music-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px var(--padding-x);
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.music-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-primario);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.music-btn:active { transform: scale(0.92); }
+.music-texto {
+  font-size: 0.85rem;
+  color: var(--color-texto);
+  opacity: 0.75;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  padding: 0;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.hero-fondo {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--color-secundario);
+  opacity: 0.25;
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px var(--padding-x);
+  text-align: center;
+  width: 100%;
+}
+.hero-circulo {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 5px solid var(--color-primario);
+  box-shadow: 0 0 0 4px white, 0 0 0 8px var(--color-secundario);
+  overflow: hidden;
+  background: var(--color-secundario);
+}
+.hero-foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-invito {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--color-primario);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+.hero-nombre {
+  font-family: var(--font-display);
+  font-size: 3.2rem;
+  color: var(--color-texto);
+  line-height: 1;
+}
+.hero-edad {
+  font-size: 1.05rem;
+  color: var(--color-primario);
+}
+
+/* ============================================================
+   COUNTDOWN
+   ============================================================ */
+.countdown-section {
+  text-align: center;
+  padding-top: 0;
+}
+.countdown-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  border-radius: var(--radius-card);
+  padding: 14px 18px;
+  min-width: 68px;
+  box-shadow: var(--shadow-card);
+}
+.countdown-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--color-primario);
+  line-height: 1;
+}
+.countdown-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--color-texto);
+  opacity: 0.6;
+  margin-top: 4px;
+  font-weight: 700;
+}
+.countdown-sep {
+  font-size: 1.6rem;
+  color: var(--color-primario);
+  line-height: 1;
+  margin-bottom: 14px;
+}
+.countdown-fecha {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: var(--color-texto);
+  opacity: 0.7;
+}
+
+/* ============================================================
+   TEXTO DE INVITACIÓN
+   ============================================================ */
+.invitacion-texto-section {
+  text-align: center;
+  padding-top: 0;
+}
+.invitacion-texto {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--color-texto);
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   GALERÍA — polaroid apilada
+   ============================================================ */
+.galeria-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-top: 0;
+}
+.galeria-contador {
+  font-size: 0.85rem;
+  background: white;
+  border-radius: 20px;
+  padding: 4px 16px;
+  box-shadow: var(--shadow-card);
+  color: var(--color-texto);
+  opacity: 0.8;
+}
+.galeria-stack {
+  position: relative;
+  width: 280px;
+  height: 340px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.galeria-card {
+  position: absolute;
+  inset: 0;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+  overflow: hidden;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  padding: 12px 12px 44px 12px;   /* espacio blanco abajo estilo polaroid */
+}
+.galeria-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+/* Cartas de fondo — apiladas con rotación */
+.galeria-card:nth-child(2) { transform: rotate(3deg) translateY(4px); }
+.galeria-card:nth-child(3) { transform: rotate(-2.5deg) translateY(6px); }
+.galeria-card:nth-child(4) { transform: rotate(1.5deg) translateY(8px); }
+/* Carta activa — siempre encima */
+.galeria-card.activa {
+  transform: rotate(0deg) translateY(0);
+  z-index: 10;
+}
+/* Animación al cambiar */
+.galeria-card.saliendo {
+  animation: cardSalida 0.25s ease forwards;
+}
+@keyframes cardSalida {
+  0%   { transform: translateX(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateX(-60px) rotate(-8deg); opacity: 0; }
+}
+.galeria-hint {
+  font-size: 1.3rem;
+  opacity: 0.5;
+  animation: bounce 2s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* ============================================================
+   UBICACIÓN
+   ============================================================ */
+.ubicacion-section { text-align: center; }
+.salon-foto-wrap {
+  position: relative;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.salon-foto {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.salon-nombre {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.55));
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.mapa-embed { border-radius: var(--radius-card); overflow: hidden; }
+.mapa-embed iframe { display: block; border-radius: var(--radius-card); }
+
+/* ============================================================
+   PROGRAMA
+   ============================================================ */
+.programa-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.programa-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: white;
+  border-radius: var(--radius-card);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-card);
+}
+.programa-hora {
+  font-weight: 700;
+  color: var(--color-primario);
+  white-space: nowrap;
+  font-size: 0.9rem;
+  min-width: 54px;
+}
+.programa-actividad { font-size: 0.95rem; }
+
+/* ============================================================
+   MENÚ
+   ============================================================ */
+.menu-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.menu-item {
+  background: white;
+  border-radius: var(--radius-card);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-card);
+}
+.menu-platillo { font-weight: 700; font-size: 0.95rem; }
+.menu-desc { font-size: 0.85rem; opacity: 0.7; }
+
+/* ============================================================
+   VESTIMENTA
+   ============================================================ */
+.vestimenta-section { text-align: center; }
+.vestimenta-card {
+  background: white;
+  border-radius: var(--radius-card);
+  padding: 24px 20px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.vestimenta-emoji { font-size: 2.4rem; }
+.vestimenta-texto { font-size: 0.95rem; }
+
+/* ============================================================
+   MESA DE REGALOS
+   ============================================================ */
+.regalos-section { text-align: center; }
+.regalos-copy {
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  opacity: 0.85;
+  line-height: 1.7;
+}
+
+/* ============================================================
+   CONFIRMACIÓN
+   ============================================================ */
+.confirmacion-section { text-align: center; }
+.confirmacion-copy {
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  opacity: 0.85;
+}
+
+/* ============================================================
+   CALENDARIO
+   ============================================================ */
+.calendario-section {
+  padding-top: 0;
+  text-align: center;
+}
+
+/* ============================================================
+   BOTONES
+   ============================================================ */
+.btn-confirmar,
+.btn-regalos,
+.btn-ubicacion,
+.btn-calendario {
+  display: inline-block;
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-cuerpo);
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: var(--shadow-btn);
+}
+.btn-confirmar:active,
+.btn-regalos:active,
+.btn-ubicacion:active,
+.btn-calendario:active { transform: scale(0.97); }
+
+.btn-confirmar  { background: var(--color-primario); color: white; }
+.btn-regalos    { background: var(--color-acento);   color: var(--color-texto); }
+.btn-ubicacion  { background: var(--color-primario); color: white; }
+.btn-calendario {
+  background: transparent;
+  color: var(--color-primario);
+  border: 2px solid var(--color-primario);
+}
+
+/* ============================================================
+   TÍTULO DE SECCIÓN (compartido)
+   ============================================================ */
+.seccion-titulo {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--color-texto);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  text-align: center;
+  padding: 32px var(--padding-x);
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+.footer-corazon { color: var(--color-primario); }
+
+/* ============================================================
+   RESPONSIVE — ajustes para pantallas muy pequeñas
+   ============================================================ */
+@media (max-width: 360px) {
+  .countdown-item { min-width: 58px; padding: 12px 12px; }
+  .countdown-num  { font-size: 1.6rem; }
+  .hero-nombre    { font-size: 2.6rem; }
+  .galeria-stack  { width: 240px; height: 290px; }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
