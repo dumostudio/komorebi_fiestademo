@@ -26,6 +26,7 @@ const EVENT = {
   portada: { usarFoto: true },
 
   hero: {
+    usarFondoFoto: true,
     fraseEdad: "¡Te invito a mi fiesta, cumplo 7 años!",
   },
 
