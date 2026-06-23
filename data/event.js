@@ -27,10 +27,10 @@ const EVENT = {
 
   hero: {
     usarFondoFoto: true,
-    fraseEdad: "¡Te invito a mi fiesta, cumplo 7 años!",
+    fraseEdad: "¡Cumplo 7 años y quiero festejar contigo!",
   },
 
-  textoInvitacion: "¡Quiero que seas parte de mi día más especial! Ven a celebrar conmigo, a bailar, reír y hacer recuerdos que nunca vamos a olvidar.",
+  textoInvitacion: "¡Quiero que seas parte de mi día más especial! Ven a celebrar conmigo, a bailar, reír y crear recuerdos que durarán para siempre.",
 
   galeria: [
     { archivo: "gallery-5.png", alt: "Sofía en el Roller" },
@@ -55,7 +55,7 @@ const EVENT = {
 
   confirmacion: {
     enlace: "https://wa.me/528110314514?text=¡Hola! Confirmo mi asistencia a la fiesta de Sofía",
-    textoAcompanamiento: "Avísale a mamá para que nadie se quede sin lugar.",
+    textoAcompanamiento: "Confírmale a mi mamá para que te tengamos bien contemplado.",
     nombreContacto: "mamá",
   },
 
